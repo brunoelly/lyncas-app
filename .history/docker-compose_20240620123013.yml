@@ -1,0 +1,57 @@
+version: '3.7'
+
+services:
+  app:
+    payableAccountiner_name: payable_accounts
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    env_file:
+      - .env
+    ports:
+      - 8080:8080
+    networks:
+      - lyncas-net
+
+  mysql:
+    payableAccountiner_name: payable_accounts_mysql
+    image: mysql:latest
+    environment:
+      MYSQL_ROOT_PASSWORD: 123456
+      MYSQL_DATABASE: payable_accounts
+      MYSQL_ROOT_HOST: '%'
+    security_opt:
+      - seccomp:unconfined
+    ports:
+      - 3306:3306
+    volumes:
+      - ../.docker/mysql:/var/lib/mysql:rw
+    networks:
+      - lyncas-net
+
+  keycloak:
+    payableAccountiner_name: payable_accounts_keycloak
+    image: quay.io/keycloak/keycloak:20.0.3
+    environment:
+    - KEYCLOAK_ADMIN=admin
+    - KEYCLOAK_ADMIN_PASSWORD=admin
+    - KC_DB=mysql
+    - KC_DB_URL=jdbc:mysql://mysql:3306/keycloak
+    - KC_DB_USERNAME=root
+    - KC_DB_PASSWORD=123456
+    ports:
+      - 8081:8081
+    command:
+#      - start-dev # Utilizar esse comando quando a aplicação estiver executando fora do Docker
+      - start-dev --http-port=8081 --hostname-url=http://keycloak.internal:8081 # Utilizar esse comando quando a aplicação estiver dentro do Docker
+    volumes:
+      - ../.docker/keycloak:/opt/keycloak/data/h2:rw
+    networks:
+      - lyncas-net
+    extra_hosts:
+      - "keycloak.internal:127.0.0.1"
+
+networks:
+  lyncas-net:
+    external: true

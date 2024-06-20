@@ -1,0 +1,28 @@
+spring:
+  datasource:
+    url: ${SPRING_DATASOURCE_URL}
+    username: ${SPRING_DATASOURCE_USERNAME}
+    password: ${SPRING_DATASOURCE_PASSWORD}
+  jpa:
+    open-in-view: ${SPRING_JPA_OPEN_IN_VIEW:false}
+    show-sql: ${SPRING_JPA_SHOW_SQL:true}
+    hibernate:
+      ddl-auto: ${SPRING_JPA_HIBERNATE_DDL_AUTO:none}
+    properties:
+      hibernate:
+        dialect: ${SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT}
+        generate_statistics: ${SPRING_JPA_PROPERTIES_HIBERNATE_GENERATE_STATISTICS:false}
+        connection.provider_disables_autocommit: ${SPRING_JPA_PROPERTIES_HIBERNATE_CONNECTION_PROVIDER_DISABLES_AUTOCOMMIT:true}
+
+security:
+  oauth2:
+    resourceserver:
+      jwt:
+        jwk-set-uri: ${SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_JWK_SET_URI}
+        issuer-uri: ${SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_ISSUER_URI}
+
+keycloak:
+  user: ${KEYCLOAK_USER}
+  password: ${KEYCLOAK_PASSWORD}
+  realm: ${KEYCLOAK_REALM}
+  host: ${KEYCLOAK_HOST}

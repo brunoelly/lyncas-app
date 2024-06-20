@@ -1,0 +1,24 @@
+# Build stage
+FROM maven:3.8.4-openjdk-17 AS builder
+
+WORKDIR /app
+
+# Copie o código-fonte e o arquivo pom.xml para o payableAccountiner
+COPY . .
+
+# Execute o build Maven
+RUN mvn clean package -DskipTests
+
+# Runtime stage
+FROM eclipse-temurin:17-jre-alpine
+
+# Copie o JAR gerado na etapa de build para a imagem final
+COPY --from=builder /app/target/*.jar /opt/app/application.jar
+
+# Adicione um grupo e um usuário para rodar a aplicação
+RUN addgroup -S spring && adduser -S spring -G spring
+USER spring:spring
+
+# Defina o comando padrão para executar a aplicação
+CMD ["java", "-jar", "/opt/app/application.jar"]
+
