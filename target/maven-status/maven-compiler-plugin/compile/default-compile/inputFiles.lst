@@ -1,0 +1,8 @@
+/home/freemason/dev/accounts_payable/src/main/java/com/app/domain/MultipartFile.java
+/home/freemason/dev/accounts_payable/src/main/java/com/app/controller/AccountsPayableController.java
+/home/freemason/dev/accounts_payable/src/main/java/com/app/service/AccountsPayableService.java
+/home/freemason/dev/accounts_payable/src/main/java/com/app/security/SecurityConfig.java
+/home/freemason/dev/accounts_payable/src/main/java/com/app/domain/Status.java
+/home/freemason/dev/accounts_payable/src/main/java/com/app/repository/AccountsPayableRepository.java
+/home/freemason/dev/accounts_payable/src/main/java/com/app/AccountsPayableApplication.java
+/home/freemason/dev/accounts_payable/src/main/java/com/app/domain/AccountsPayable.java
