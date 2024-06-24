@@ -1,5 +1,7 @@
 package com.app.domain;
 
+import java.io.InputStream;
+
 public class MultipartFile {
 
     private MultipartFile file;

@@ -4,11 +4,11 @@ import com.app.domain.AccountsPayable;
 import com.app.domain.MultipartFile;
 import com.app.domain.Status;
 import com.app.service.AccountsPayableService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
@@ -72,8 +72,7 @@ public class AccountsPayableController {
     }
 
     @PostMapping("/import")
-    public ResponseEntity<Void> importarCSV(@RequestParam("file") MultipartFile file) {
-        // TODO
-        return ResponseEntity.ok().build();
+    public ResponseEntity<Void> importCSV(@RequestParam("file") MultipartFile file) {
+        return null;
     }
 }

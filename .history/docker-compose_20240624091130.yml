@@ -1,0 +1,62 @@
+services: 
+  #app:
+   # container_name: APP
+    #build:
+     # context: .
+      #dockerfile: Dockerfile
+    #restart: unless-stopped
+    #env_file:
+     # - .env
+    #ports:
+    #  - 8080:8080
+    #networks:
+     #- lyncas-net
+
+  mysql-server:
+    container_name: MYSQL
+    image: mysql:latest
+    command: --innodb-use-native-aio=0
+    restart: always
+    tty: true
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+    ports:
+      - 3306:3306
+    volumes:
+      - ./keycloak/sql:/docker-entrypoint-initdb.d
+      - ./mysql:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - lyncas-net
+
+  keycloak:
+    container_name: KEYCLOAK
+    image: quay.io/keycloak/keycloak:21.1.1 
+    ports:
+      - 8081:8080
+    command: -v start-dev --import-realm
+    environment:
+      KC_HEALTH_ENABLED: true
+      KC_METRICS_ENABLED: true
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: admin
+      KC_DB: mysql
+      KC_DB_URL_HOST: mysql-server
+      KC_DB_URL_PORT: 3306
+      KC_DB_USERNAME: keycloak
+      KC_DB_PASSWORD: keycloak
+    volumes:
+      - ./keycloak:/opt/keycloak/data/import
+    depends_on:
+      mysql-server:
+        condition: service_healthy
+    networks:
+      - lyncas-net
+      
+networks:
+  lyncas-net:
+    driver: bridge
